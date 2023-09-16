@@ -119,7 +119,6 @@
             StructureGroupbox.TabIndex = 7;
             StructureGroupbox.TabStop = false;
             StructureGroupbox.Text = "Structure";
-            StructureGroupbox.Enter += StructureGroupbox_Enter;
             // 
             // radioButton1
             // 

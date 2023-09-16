@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 // 6.1 Create a seperate class file. Name it Information.cs
-class Information
+class Information : IComparable<Information> 
 {
     // 6.1 Use privte properties for the fields which must be type string
     private string name;
@@ -9,7 +9,7 @@ class Information
     private string category;
     private string defintion;
 
-    public string GetName(string nameInfo)
+    public string GetName()
     {
         return name;
     }
@@ -25,11 +25,24 @@ class Information
     {
         return defintion;
     }
-    public Information(string nameInfo, string categoryInfo, string structureInfo, string definitionInfo)
+    public Information(string nameInfo,string structureInfo, string categoryInfo, string definitionInfo)
     {
         name = nameInfo;
-        category = categoryInfo;
         structure = structureInfo;
+        category = categoryInfo;
         defintion = definitionInfo;
+    }
+    public int SortByNameAscending(string firstVal, string secondVal)
+    {
+        return firstVal.CompareTo(secondVal);
+    }
+    public int CompareTo(Information compareName)
+    {
+        // A null value means that this object is greater.
+        if (compareName == null)
+            return 1;
+
+        else
+            return this.name.CompareTo(compareName.name);
     }
 }
