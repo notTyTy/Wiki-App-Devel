@@ -29,7 +29,11 @@ namespace Wiki_App_Devel
         private void AddBtn_Click(object sender, EventArgs e)
         {
             int index = 0; //This index is an empty string, done to keep the program looking clean.
-            if (string.IsNullOrEmpty(NameTextbox.Text))
+            if(ValidName())
+            {
+                MessageBox.Show("This name already exists!", "Duplicate Name", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else if (string.IsNullOrEmpty(NameTextbox.Text))
             {
                 MessageBox.Show("Please input a name", "Empty Name", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -42,7 +46,6 @@ namespace Wiki_App_Devel
                 MessageBox.Show("Please input a definition", "Empty Definition", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             // else if for radio buttons.
-
             else
             {
                 index = CategoryCombobox.SelectedIndex; // Gets the item index in the Combobox
@@ -74,9 +77,10 @@ namespace Wiki_App_Devel
                 InformationListView.Items.Add(item); // Adds name and category to the listview
             }
         }
-        private void DisplayData() // A method to output the data to the required boxes
+        private bool ValidName() // 6.5 Create a custom ValidName method that takes parameter string from NameTextbox and returns a bool
         {
-             
+            bool nameExists = wiki.Exists(x => x.GetName() == NameTextbox.Text);
+            return nameExists;
         }
     }
 }
