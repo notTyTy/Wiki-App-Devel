@@ -18,7 +18,7 @@ namespace Wiki_App_Devel
         {
             // The six categories must be read from a simple text file
             StreamReader sr = new StreamReader("combodata.txt");
-            string category = "";
+            string? category = "";
             while ((category = sr.ReadLine()) != null)
             {
                 CategoryCombobox.Items.Add(category);
@@ -29,7 +29,7 @@ namespace Wiki_App_Devel
         private void AddBtn_Click(object sender, EventArgs e)
         {
             int index = 0; //This index is an empty string, done to keep the program looking clean.
-            if(ValidName())
+            if (ValidName())
             {
                 MessageBox.Show("This name already exists!", "Duplicate Name", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -49,7 +49,7 @@ namespace Wiki_App_Devel
             else
             {
                 index = CategoryCombobox.SelectedIndex; // Gets the item index in the Combobox
-                string? comboboxValue = CategoryCombobox.Items[index].ToString(); // Outputs the string value at the chosen index
+                var comboboxValue = CategoryCombobox.Items[index].ToString(); // Outputs the string value at the chosen index
 
                 wiki.Add(new Information(NameTextbox.Text, "Structure", comboboxValue, DefinitionTextbox.Text)); //Name, Category, Structure, Definition
                 ListRefresh();

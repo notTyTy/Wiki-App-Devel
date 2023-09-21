@@ -162,7 +162,7 @@
             // NameColumn
             // 
             NameColumn.Text = "Name";
-            NameColumn.Width = 161;
+            NameColumn.Width = 158;
             // 
             // CategoryColumn
             // 
