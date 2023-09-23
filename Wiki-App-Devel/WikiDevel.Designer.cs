@@ -69,6 +69,7 @@
             EditBtn.TabIndex = 1;
             EditBtn.Text = "Edit";
             EditBtn.UseVisualStyleBackColor = true;
+            EditBtn.Click += EditBtn_Click;
             // 
             // DeleteBtn
             // 
@@ -78,6 +79,7 @@
             DeleteBtn.TabIndex = 2;
             DeleteBtn.Text = "Delete";
             DeleteBtn.UseVisualStyleBackColor = true;
+            DeleteBtn.Click += DeleteBtn_Click;
             // 
             // SearchTextbox
             // 
@@ -101,6 +103,7 @@
             NameTextbox.Name = "NameTextbox";
             NameTextbox.Size = new Size(225, 23);
             NameTextbox.TabIndex = 5;
+            NameTextbox.DoubleClick += NameTextbox_DoubleClick;
             // 
             // DefinitionTextbox
             // 
@@ -148,16 +151,19 @@
             SaveBtn.TabIndex = 9;
             SaveBtn.Text = "Save";
             SaveBtn.UseVisualStyleBackColor = true;
+            SaveBtn.Click += SaveBtn_Click;
             // 
             // InformationListView
             // 
             InformationListView.Columns.AddRange(new ColumnHeader[] { NameColumn, CategoryColumn });
             InformationListView.Location = new Point(327, 55);
+            InformationListView.MultiSelect = false;
             InformationListView.Name = "InformationListView";
             InformationListView.Size = new Size(298, 317);
             InformationListView.TabIndex = 10;
             InformationListView.UseCompatibleStateImageBehavior = false;
             InformationListView.View = View.Details;
+            InformationListView.SelectedIndexChanged += InformationListView_SelectedIndexChanged;
             // 
             // NameColumn
             // 
@@ -185,6 +191,7 @@
             LoadBtn.TabIndex = 12;
             LoadBtn.Text = "Load";
             LoadBtn.UseVisualStyleBackColor = true;
+            LoadBtn.Click += LoadBtn_Click;
             // 
             // NameLabel
             // 
