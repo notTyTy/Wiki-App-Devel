@@ -36,18 +36,17 @@
             NameTextbox = new TextBox();
             DefinitionTextbox = new TextBox();
             StructureGroupbox = new GroupBox();
-            radioButton1 = new RadioButton();
+            LinearRadio = new RadioButton();
             CategoryCombobox = new ComboBox();
             SaveBtn = new Button();
             InformationListView = new ListView();
             NameColumn = new ColumnHeader();
             CategoryColumn = new ColumnHeader();
-            StatusStrip = new StatusStrip();
             LoadBtn = new Button();
             NameLabel = new Label();
             CategoryLabel = new Label();
             DefinitonLabel = new Label();
-            radioButton2 = new RadioButton();
+            NonLinearRadio = new RadioButton();
             StructureGroupbox.SuspendLayout();
             SuspendLayout();
             // 
@@ -96,6 +95,7 @@
             SearchBtn.TabIndex = 4;
             SearchBtn.Text = "Search";
             SearchBtn.UseVisualStyleBackColor = true;
+            SearchBtn.Click += SearchBtn_Click;
             // 
             // NameTextbox
             // 
@@ -115,7 +115,7 @@
             // 
             // StructureGroupbox
             // 
-            StructureGroupbox.Controls.Add(radioButton1);
+            StructureGroupbox.Controls.Add(LinearRadio);
             StructureGroupbox.Location = new Point(22, 81);
             StructureGroupbox.Name = "StructureGroupbox";
             StructureGroupbox.Size = new Size(105, 78);
@@ -123,16 +123,16 @@
             StructureGroupbox.TabStop = false;
             StructureGroupbox.Text = "Structure";
             // 
-            // radioButton1
+            // LinearRadio
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(8, 22);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(57, 19);
-            radioButton1.TabIndex = 0;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Linear";
-            radioButton1.UseVisualStyleBackColor = true;
+            LinearRadio.AutoSize = true;
+            LinearRadio.Location = new Point(8, 22);
+            LinearRadio.Name = "LinearRadio";
+            LinearRadio.Size = new Size(57, 19);
+            LinearRadio.TabIndex = 0;
+            LinearRadio.TabStop = true;
+            LinearRadio.Text = "Linear";
+            LinearRadio.UseVisualStyleBackColor = true;
             // 
             // CategoryCombobox
             // 
@@ -151,6 +151,7 @@
             SaveBtn.TabIndex = 9;
             SaveBtn.Text = "Save";
             SaveBtn.UseVisualStyleBackColor = true;
+            SaveBtn.Click += SaveBtn_Click;
             // 
             // InformationListView
             // 
@@ -174,14 +175,6 @@
             CategoryColumn.Text = "Category";
             CategoryColumn.Width = 136;
             // 
-            // StatusStrip
-            // 
-            StatusStrip.Location = new Point(0, 397);
-            StatusStrip.Name = "StatusStrip";
-            StatusStrip.Size = new Size(636, 22);
-            StatusStrip.TabIndex = 11;
-            StatusStrip.Text = "StatusStrip";
-            // 
             // LoadBtn
             // 
             LoadBtn.Location = new Point(224, 349);
@@ -190,6 +183,7 @@
             LoadBtn.TabIndex = 12;
             LoadBtn.Text = "Load";
             LoadBtn.UseVisualStyleBackColor = true;
+            LoadBtn.Click += LoadBtn_Click;
             // 
             // NameLabel
             // 
@@ -218,28 +212,27 @@
             DefinitonLabel.TabIndex = 15;
             DefinitonLabel.Text = "Definition";
             // 
-            // radioButton2
+            // NonLinearRadio
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(30, 128);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(85, 19);
-            radioButton2.TabIndex = 1;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Non-Linear";
-            radioButton2.UseVisualStyleBackColor = true;
+            NonLinearRadio.AutoSize = true;
+            NonLinearRadio.Location = new Point(30, 128);
+            NonLinearRadio.Name = "NonLinearRadio";
+            NonLinearRadio.Size = new Size(85, 19);
+            NonLinearRadio.TabIndex = 1;
+            NonLinearRadio.TabStop = true;
+            NonLinearRadio.Text = "Non-Linear";
+            NonLinearRadio.UseVisualStyleBackColor = true;
             // 
             // WikiDevel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(636, 419);
-            Controls.Add(radioButton2);
+            Controls.Add(NonLinearRadio);
             Controls.Add(DefinitonLabel);
             Controls.Add(CategoryLabel);
             Controls.Add(NameLabel);
             Controls.Add(LoadBtn);
-            Controls.Add(StatusStrip);
             Controls.Add(InformationListView);
             Controls.Add(SaveBtn);
             Controls.Add(CategoryCombobox);
@@ -253,6 +246,7 @@
             Controls.Add(AddBtn);
             Name = "WikiDevel";
             Text = "Wiki App";
+            FormClosing += WikiDevel_FormClosing;
             StructureGroupbox.ResumeLayout(false);
             StructureGroupbox.PerformLayout();
             ResumeLayout(false);
@@ -272,14 +266,13 @@
         private ComboBox CategoryCombobox;
         private Button SaveBtn;
         private ListView InformationListView;
-        private StatusStrip StatusStrip;
         private Button LoadBtn;
         private Label NameLabel;
         private Label CategoryLabel;
         private Label DefinitonLabel;
         private ColumnHeader NameColumn;
         private ColumnHeader CategoryColumn;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
+        private RadioButton NonLinearRadio;
+        private RadioButton LinearRadio;
     }
 }
