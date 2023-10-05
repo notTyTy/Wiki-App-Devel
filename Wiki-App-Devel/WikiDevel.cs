@@ -93,8 +93,10 @@ namespace Wiki_App_Devel
                     wiki.RemoveAt(InformationListView.SelectedIndices[0]);
                     ListRefresh(); // Display an updated version of the sorted list at the end of this process.
                 }
-                else // Ensure the user has the option to backout of this action by using a dialog box
-                    return;
+                else
+                {
+                    return; // Ensure the user has the option to backout of this action by using a dialog box
+                }
             }
             else
                 MessageBox.Show("Please select a value in the listview before attempting to delete", "Delete error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
