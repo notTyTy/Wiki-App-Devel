@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Wiki_App_Devel
 {
     public partial class WikiDevel : Form
@@ -7,9 +9,9 @@ namespace Wiki_App_Devel
         {
             InitializeComponent();
         }
-        private void WikiDevel_Load(object sender, EventArgs e)
+        private void WikiDevel_Load(object sender, EventArgs e) // Form Load
         {
-            ComboboxLoad(); // Form load
+            ComboboxLoad(); // Adds txt data to the application
         }
         private void ComboboxLoad() // 6.4 Create a custom method to populate the Combobox when the Form Load Method is called
         {
@@ -35,8 +37,9 @@ namespace Wiki_App_Devel
             }
             else
             {
-                wiki.Add(new Information(NameTextbox.Text, GetRadio(), CategoryCombobox.Text, DefinitionTextbox.Text)); // Name, Structure, Category, Definition
+                wiki.Add(new Information(NameTextbox.Text.ToLower(), GetRadio(), CategoryCombobox.Text, DefinitionTextbox.Text)); // Name, Structure, Category, Definition
                 ListRefresh();
+                NameTextbox.Select(); // Automatically reselects the Name Textbox for new data to be added 
             }
         }
         private void ListRefresh() // A method to clear the listview, and update it with new values where necessary (i.e., add, edit, delete, sort)
@@ -50,14 +53,15 @@ namespace Wiki_App_Devel
             wiki.Sort();
             for (int i = 0; i < wiki.Count; i++) // Loops through the list and adds the relevant items to the name and category fields in the listView
             {
-                ListViewItem item = new(wiki[i].GetName());
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                ListViewItem item = new(textInfo.ToTitleCase(wiki[i].GetName()));
                 item.SubItems.Add(wiki[i].GetCategory());
                 InformationListView.Items.Add(item); // Adds name and category to the listview
             }
         }
         private bool ValidName() // 6.5 Create a custom ValidName method that takes parameter string from NameTextbox and returns a bool
         {
-            return wiki.Exists(x => x.GetName() == NameTextbox.Text);  // Use the built in List<T> method “Exists”
+            return wiki.Exists(x => x.GetName() == NameTextbox.Text.ToLower());  // Use the built in List<T> method “Exists”
         }
         private void NameTextbox_DoubleClick(object sender, EventArgs e) // 6.13 Create a double click event on the Name TextBox to clear the Textboxes, ComboBox and Radio button.
         {
@@ -118,7 +122,7 @@ namespace Wiki_App_Devel
                 else if (nameExists | !ValidName()) // Checks for instances of the name existing on edit AND add 
                 {
                     var index = wiki[InformationListView.SelectedIndices[0]];
-                    index.SetName(NameTextbox.Text);
+                    index.SetName(NameTextbox.Text.ToLower());
                     index.SetStructure(GetRadio());
                     index.SetCategory(CategoryCombobox.Text);
                     index.SetDefinition(DefinitionTextbox.Text);
@@ -194,7 +198,7 @@ namespace Wiki_App_Devel
         }
         private void SearchBtn_Click(object sender, EventArgs e) // 6.10 Use built in binary search to find Information(nameSearch)
         {
-            int index = wiki.BinarySearch(new Information(SearchTextbox.Text));
+            int index = wiki.BinarySearch(new Information(SearchTextbox.Text.ToLower()));
             if (index < 0)
             {
                 MessageBox.Show("The searched value could not be found", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -202,13 +206,15 @@ namespace Wiki_App_Devel
             else
             {
                 DataOutput(wiki[index].GetName(), index, wiki[index].GetCategory(), wiki[index].GetDefinition()); // Populate the appropriate input controls
+                InformationListView.Items[index].Selected = true; // 6.10 Highlight the appropriate data in the listview
             }
             SearchTextbox.Clear(); // SearchTextbox is cleared
             SearchTextbox.Focus(); // Search Textbox remains focus
         }
         private void DataOutput(string nameTextbox, int radioGroupbox, string categoryCombobox, string definitionTextbox) // A method that will take the parameters for output and display the desired data
         {
-            NameTextbox.Text = nameTextbox;
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo; //  In order to output name as Titlecase -- It is forced lowercase for search as all uppercase search won't query as titlecase
+            NameTextbox.Text = textInfo.ToTitleCase(nameTextbox);
             SetRadio(radioGroupbox);
             CategoryCombobox.Text = categoryCombobox;
             DefinitionTextbox.Text = definitionTextbox;

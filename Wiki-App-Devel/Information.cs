@@ -27,7 +27,7 @@ class Information : IComparable<Information>  // add an appropriate IComparable 
     {
         return defintion;
     }
-    public void SetName(string nameInfo)
+    public void SetName(string nameInfo) // Setter
     {
         name = nameInfo;
     }

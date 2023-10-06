@@ -55,7 +55,7 @@
             AddBtn.Location = new Point(30, 23);
             AddBtn.Name = "AddBtn";
             AddBtn.Size = new Size(84, 23);
-            AddBtn.TabIndex = 0;
+            AddBtn.TabIndex = 4;
             AddBtn.Text = "Add";
             AddBtn.UseVisualStyleBackColor = true;
             AddBtn.Click += AddBtn_Click;
@@ -65,7 +65,7 @@
             EditBtn.Location = new Point(128, 23);
             EditBtn.Name = "EditBtn";
             EditBtn.Size = new Size(84, 23);
-            EditBtn.TabIndex = 1;
+            EditBtn.TabIndex = 5;
             EditBtn.Text = "Edit";
             EditBtn.UseVisualStyleBackColor = true;
             EditBtn.Click += EditBtn_Click;
@@ -75,7 +75,7 @@
             DeleteBtn.Location = new Point(224, 23);
             DeleteBtn.Name = "DeleteBtn";
             DeleteBtn.Size = new Size(84, 23);
-            DeleteBtn.TabIndex = 2;
+            DeleteBtn.TabIndex = 6;
             DeleteBtn.Text = "Delete";
             DeleteBtn.UseVisualStyleBackColor = true;
             DeleteBtn.Click += DeleteBtn_Click;
@@ -85,14 +85,14 @@
             SearchTextbox.Location = new Point(327, 22);
             SearchTextbox.Name = "SearchTextbox";
             SearchTextbox.Size = new Size(208, 23);
-            SearchTextbox.TabIndex = 3;
+            SearchTextbox.TabIndex = 7;
             // 
             // SearchBtn
             // 
             SearchBtn.Location = new Point(541, 22);
             SearchBtn.Name = "SearchBtn";
             SearchBtn.Size = new Size(84, 23);
-            SearchBtn.TabIndex = 4;
+            SearchBtn.TabIndex = 8;
             SearchBtn.Text = "Search";
             SearchBtn.UseVisualStyleBackColor = true;
             SearchBtn.Click += SearchBtn_Click;
@@ -102,7 +102,7 @@
             NameTextbox.Location = new Point(83, 52);
             NameTextbox.Name = "NameTextbox";
             NameTextbox.Size = new Size(225, 23);
-            NameTextbox.TabIndex = 5;
+            NameTextbox.TabIndex = 0;
             NameTextbox.DoubleClick += NameTextbox_DoubleClick;
             // 
             // DefinitionTextbox
@@ -111,7 +111,7 @@
             DefinitionTextbox.Multiline = true;
             DefinitionTextbox.Name = "DefinitionTextbox";
             DefinitionTextbox.Size = new Size(286, 156);
-            DefinitionTextbox.TabIndex = 6;
+            DefinitionTextbox.TabIndex = 3;
             // 
             // StructureGroupbox
             // 
@@ -120,7 +120,7 @@
             StructureGroupbox.Location = new Point(22, 81);
             StructureGroupbox.Name = "StructureGroupbox";
             StructureGroupbox.Size = new Size(105, 78);
-            StructureGroupbox.TabIndex = 7;
+            StructureGroupbox.TabIndex = 2;
             StructureGroupbox.TabStop = false;
             StructureGroupbox.Text = "Structure";
             // 
@@ -131,7 +131,7 @@
             NonLinearRadio.Location = new Point(6, 45);
             NonLinearRadio.Name = "NonLinearRadio";
             NonLinearRadio.Size = new Size(85, 19);
-            NonLinearRadio.TabIndex = 1;
+            NonLinearRadio.TabIndex = 3;
             NonLinearRadio.TabStop = true;
             NonLinearRadio.Text = "Non-Linear";
             NonLinearRadio.UseVisualStyleBackColor = true;
@@ -142,7 +142,7 @@
             LinearRadio.Location = new Point(6, 20);
             LinearRadio.Name = "LinearRadio";
             LinearRadio.Size = new Size(57, 19);
-            LinearRadio.TabIndex = 0;
+            LinearRadio.TabIndex = 2;
             LinearRadio.TabStop = true;
             LinearRadio.Text = "Linear";
             LinearRadio.UseVisualStyleBackColor = true;
@@ -154,7 +154,7 @@
             CategoryCombobox.Location = new Point(133, 101);
             CategoryCombobox.Name = "CategoryCombobox";
             CategoryCombobox.Size = new Size(175, 23);
-            CategoryCombobox.TabIndex = 8;
+            CategoryCombobox.TabIndex = 1;
             // 
             // SaveBtn
             // 
@@ -173,7 +173,7 @@
             InformationListView.MultiSelect = false;
             InformationListView.Name = "InformationListView";
             InformationListView.Size = new Size(298, 317);
-            InformationListView.TabIndex = 10;
+            InformationListView.TabIndex = 11;
             InformationListView.UseCompatibleStateImageBehavior = false;
             InformationListView.View = View.Details;
             InformationListView.SelectedIndexChanged += InformationListView_SelectedIndexChanged;
@@ -193,7 +193,7 @@
             LoadBtn.Location = new Point(224, 349);
             LoadBtn.Name = "LoadBtn";
             LoadBtn.Size = new Size(84, 23);
-            LoadBtn.TabIndex = 12;
+            LoadBtn.TabIndex = 10;
             LoadBtn.Text = "Load";
             LoadBtn.UseVisualStyleBackColor = true;
             LoadBtn.Click += LoadBtn_Click;
