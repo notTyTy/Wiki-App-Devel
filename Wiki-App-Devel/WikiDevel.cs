@@ -1,15 +1,15 @@
-using System.Collections;
-
 namespace Wiki_App_Devel
 {
     public partial class WikiDevel : Form
     {
-
         readonly List<Information> wiki = new(); // 6.2 Create a global List<T> of type Information called wiki
         public WikiDevel()
         {
             InitializeComponent();
-            ComboboxLoad(); // form load
+        }
+        private void WikiDevel_Load(object sender, EventArgs e)
+        {
+            ComboboxLoad(); // Form load
         }
         private void ComboboxLoad() // 6.4 Create a custom method to populate the Combobox when the Form Load Method is called
         {
@@ -110,7 +110,7 @@ namespace Wiki_App_Devel
                 bool nameExists = (wiki[InformationListView.SelectedIndices[0]].GetName() == NameTextbox.Text);
                 if (string.IsNullOrWhiteSpace(NameTextbox.Text)
                     | (LinearRadio.Checked == false && NonLinearRadio.Checked == false)
-                    | CategoryCombobox.SelectedIndex < 1 
+                    | CategoryCombobox.SelectedIndex < 1
                     | string.IsNullOrWhiteSpace(DefinitionTextbox.Text))
                 {
                     MessageBox.Show("Please fill in all fields before attempting to edit", "Edit Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -228,7 +228,7 @@ namespace Wiki_App_Devel
         // 6.6 Second method must send an integer index which will highlight the appropriate radio button
         private void SetRadio(int index)
         {
-            foreach(RadioButton radioButton in StructureGroupbox.Controls)
+            foreach (RadioButton radioButton in StructureGroupbox.Controls)
             {
                 if (radioButton.Text == wiki[index].GetStructure())
                 {

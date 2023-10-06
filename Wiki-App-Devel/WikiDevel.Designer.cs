@@ -248,6 +248,7 @@
             Name = "WikiDevel";
             Text = "Wiki App";
             FormClosing += WikiDevel_FormClosing;
+            Load += WikiDevel_Load;
             StructureGroupbox.ResumeLayout(false);
             StructureGroupbox.PerformLayout();
             ResumeLayout(false);

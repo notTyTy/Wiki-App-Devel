@@ -5,7 +5,6 @@ class Information : IComparable<Information>  // add an appropriate IComparable 
     public Information()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     { }
-
     // 6.1 Use privte properties for the fields which must be type string
     private string name;
     private string structure;
