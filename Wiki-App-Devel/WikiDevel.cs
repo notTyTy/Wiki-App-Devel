@@ -199,9 +199,16 @@ namespace Wiki_App_Devel
         private void SearchBtn_Click(object sender, EventArgs e) // 6.10 Use built in binary search to find Information(nameSearch)
         {
             int index = wiki.BinarySearch(new Information(SearchTextbox.Text.ToLower()));
-            if (index < 0)
+            if (InformationListView.Items.Count < 1)
+            {
+                MessageBox.Show("Add data to the array before searching!", "Search Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else if (index < 0)
             {
                 MessageBox.Show("The searched value could not be found", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                InformationListView.Items[0].Selected = false; // On failed search deselects the previously searched value from the listview
+                ClearBoxes(); // Resets the outputted data in the text fields on a failed search
             }
             else
             {
