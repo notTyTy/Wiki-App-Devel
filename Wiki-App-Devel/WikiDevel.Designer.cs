@@ -36,6 +36,7 @@
             NameTextbox = new TextBox();
             DefinitionTextbox = new TextBox();
             StructureGroupbox = new GroupBox();
+            NonLinearRadio = new RadioButton();
             LinearRadio = new RadioButton();
             CategoryCombobox = new ComboBox();
             SaveBtn = new Button();
@@ -46,7 +47,6 @@
             NameLabel = new Label();
             CategoryLabel = new Label();
             DefinitonLabel = new Label();
-            NonLinearRadio = new RadioButton();
             StructureGroupbox.SuspendLayout();
             SuspendLayout();
             // 
@@ -115,6 +115,7 @@
             // 
             // StructureGroupbox
             // 
+            StructureGroupbox.Controls.Add(NonLinearRadio);
             StructureGroupbox.Controls.Add(LinearRadio);
             StructureGroupbox.Location = new Point(22, 81);
             StructureGroupbox.Name = "StructureGroupbox";
@@ -123,10 +124,22 @@
             StructureGroupbox.TabStop = false;
             StructureGroupbox.Text = "Structure";
             // 
+            // NonLinearRadio
+            // 
+            NonLinearRadio.AutoSize = true;
+            NonLinearRadio.BackgroundImageLayout = ImageLayout.None;
+            NonLinearRadio.Location = new Point(6, 45);
+            NonLinearRadio.Name = "NonLinearRadio";
+            NonLinearRadio.Size = new Size(85, 19);
+            NonLinearRadio.TabIndex = 1;
+            NonLinearRadio.TabStop = true;
+            NonLinearRadio.Text = "Non-Linear";
+            NonLinearRadio.UseVisualStyleBackColor = true;
+            // 
             // LinearRadio
             // 
             LinearRadio.AutoSize = true;
-            LinearRadio.Location = new Point(8, 22);
+            LinearRadio.Location = new Point(6, 20);
             LinearRadio.Name = "LinearRadio";
             LinearRadio.Size = new Size(57, 19);
             LinearRadio.TabIndex = 0;
@@ -212,23 +225,11 @@
             DefinitonLabel.TabIndex = 15;
             DefinitonLabel.Text = "Definition";
             // 
-            // NonLinearRadio
-            // 
-            NonLinearRadio.AutoSize = true;
-            NonLinearRadio.Location = new Point(30, 128);
-            NonLinearRadio.Name = "NonLinearRadio";
-            NonLinearRadio.Size = new Size(85, 19);
-            NonLinearRadio.TabIndex = 1;
-            NonLinearRadio.TabStop = true;
-            NonLinearRadio.Text = "Non-Linear";
-            NonLinearRadio.UseVisualStyleBackColor = true;
-            // 
             // WikiDevel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(636, 419);
-            Controls.Add(NonLinearRadio);
             Controls.Add(DefinitonLabel);
             Controls.Add(CategoryLabel);
             Controls.Add(NameLabel);

@@ -1,5 +1,4 @@
-using System.ComponentModel;
-using System.Drawing;
+using System.Collections;
 
 namespace Wiki_App_Devel
 {
@@ -10,17 +9,16 @@ namespace Wiki_App_Devel
         public WikiDevel()
         {
             InitializeComponent();
-            ComboboxLoad();
+            ComboboxLoad(); // form load
         }
         private void ComboboxLoad() // 6.4 Create a custom method to populate the Combobox when the Form Load Method is called
         {
-            StreamReader sr = new("combodata.txt"); // The six categories must be read from a simple text file
+            using StreamReader sr = new("combodata.txt"); // The six categories must be read from a simple text file
             string? category;
             while ((category = sr.ReadLine()) != null)
             {
                 CategoryCombobox.Items.Add(category);
             }
-            sr.Close();
         }
         private void AddBtn_Click(object sender, EventArgs e) // 6.3 Create a button to add a new item to the list
         {
@@ -28,18 +26,20 @@ namespace Wiki_App_Devel
             {
                 MessageBox.Show("This name already exists!", "Duplicate Name", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            else if (string.IsNullOrEmpty(NameTextbox.Text) | CategoryCombobox.SelectedIndex < 1 | string.IsNullOrEmpty(DefinitionTextbox.Text))
+            else if (string.IsNullOrEmpty(NameTextbox.Text)
+                | CategoryCombobox.SelectedIndex < 1
+                | string.IsNullOrEmpty(DefinitionTextbox.Text)
+                | (LinearRadio.Checked == false && NonLinearRadio.Checked == false))
             {
                 MessageBox.Show("Please ensure all fields are filled!", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            // else if for radio buttons.
             else
             {
-                wiki.Add(new Information(NameTextbox.Text, "Structure", CategoryCombobox.Text, DefinitionTextbox.Text)); // Name, Structure, Category Definition
+                wiki.Add(new Information(NameTextbox.Text, GetRadio(), CategoryCombobox.Text, DefinitionTextbox.Text)); // Name, Structure, Category, Definition
                 ListRefresh();
             }
         }
-        private void ListRefresh() // A method to clear the listview, and update it with new values where necessary (i.e., add, edit, delete, sort.
+        private void ListRefresh() // A method to clear the listview, and update it with new values where necessary (i.e., add, edit, delete, sort)
         {
             InformationListView.Items.Clear(); // Clears the listview on each new addition
             ClearBoxes(); // Resets currently filled fields
@@ -57,26 +57,28 @@ namespace Wiki_App_Devel
         }
         private bool ValidName() // 6.5 Create a custom ValidName method that takes parameter string from NameTextbox and returns a bool
         {
-            bool nameExists = wiki.Exists(x => x.GetName() == NameTextbox.Text); // Use the built in List<T> method “Exists”
-            return nameExists;
+            return wiki.Exists(x => x.GetName() == NameTextbox.Text);  // Use the built in List<T> method “Exists”
         }
         private void NameTextbox_DoubleClick(object sender, EventArgs e) // 6.13 Create a double click event on the Name TextBox to clear the Textboxes, ComboBox and Radio button.
         {
             ClearBoxes();
-        } 
+        }
         private void ClearBoxes() // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
         {
             NameTextbox.Clear();
             CategoryCombobox.SelectedIndex = 0;
             DefinitionTextbox.Clear();
+            LinearRadio.Checked = false;
+            NonLinearRadio.Checked = false;
         }
         private void DisplayData() // 6.11 Have data from the listview output to the desired textboxes
         {
             ListViewItem? selectedItem = InformationListView.SelectedItems.Count > 0 ? InformationListView.SelectedItems[0] : null;
             if (selectedItem != null)
             {
-                var output = wiki[InformationListView.SelectedIndices[0]];
-                DataOutput(output.GetName(), output.GetCategory(), output.GetDefinition());
+                int index = InformationListView.SelectedIndices[0];
+                var output = wiki[index];
+                DataOutput(output.GetName(), index, output.GetCategory(), output.GetDefinition());
             }
         }
         private void InformationListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -105,14 +107,21 @@ namespace Wiki_App_Devel
         {
             if (InformationListView.SelectedItems.Count > 0)
             {
-                bool nameExists = (wiki[InformationListView.SelectedIndices[0]].GetName() == NameTextbox.Text);  
-                if (NameTextbox.Text == "" | CategoryCombobox.SelectedIndex < 1 | DefinitionTextbox.Text == "")
+                bool nameExists = (wiki[InformationListView.SelectedIndices[0]].GetName() == NameTextbox.Text);
+                if (string.IsNullOrWhiteSpace(NameTextbox.Text)
+                    | (LinearRadio.Checked == false && NonLinearRadio.Checked == false)
+                    | CategoryCombobox.SelectedIndex < 1 
+                    | string.IsNullOrWhiteSpace(DefinitionTextbox.Text))
                 {
                     MessageBox.Show("Please fill in all fields before attempting to edit", "Edit Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else if (nameExists | !ValidName()) // Checks for instances of the name existing on edit AND add 
                 {
-                    wiki[InformationListView.SelectedIndices[0]].MutateData(NameTextbox.Text, "Structure", CategoryCombobox.Text, DefinitionTextbox.Text);
+                    var index = wiki[InformationListView.SelectedIndices[0]];
+                    index.SetName(NameTextbox.Text);
+                    index.SetStructure(GetRadio());
+                    index.SetCategory(CategoryCombobox.Text);
+                    index.SetDefinition(DefinitionTextbox.Text);
                     ListRefresh(); // Display an updated version of the sorted list at the end of this process.
                 }
                 else
@@ -192,17 +201,40 @@ namespace Wiki_App_Devel
             }
             else
             {
-                DataOutput(wiki[index].GetName(), wiki[index].GetCategory(), wiki[index].GetDefinition()); // Populate the appropriate input controls
+                DataOutput(wiki[index].GetName(), index, wiki[index].GetCategory(), wiki[index].GetDefinition()); // Populate the appropriate input controls
             }
             SearchTextbox.Clear(); // SearchTextbox is cleared
             SearchTextbox.Focus(); // Search Textbox remains focus
         }
-        private void DataOutput(string nameTextbox, string categoryCombobox, string definitionTextbox) // A method that will take the parameters for output and display the desired data
+        private void DataOutput(string nameTextbox, int radioGroupbox, string categoryCombobox, string definitionTextbox) // A method that will take the parameters for output and display the desired data
         {
             NameTextbox.Text = nameTextbox;
+            SetRadio(radioGroupbox);
             CategoryCombobox.Text = categoryCombobox;
-            // StructureGroupbox.Text = structureCombobox;
             DefinitionTextbox.Text = definitionTextbox;
+        }
+        // 6.6 First method must return a string value from the selected radio button
+        private string GetRadio()
+        {
+            foreach (RadioButton radioButton in StructureGroupbox.Controls)
+            {
+                if (radioButton.Checked)
+                {
+                    return radioButton.Text;
+                }
+            }
+            return ""; // Not Possible due to add method error handling
+        }
+        // 6.6 Second method must send an integer index which will highlight the appropriate radio button
+        private void SetRadio(int index)
+        {
+            foreach(RadioButton radioButton in StructureGroupbox.Controls)
+            {
+                if (radioButton.Text == wiki[index].GetStructure())
+                {
+                    radioButton.Checked = true;
+                }
+            }
         }
     }
 }
