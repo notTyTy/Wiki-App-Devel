@@ -168,16 +168,16 @@ namespace Wiki_App_Devel
                 {
                     using FileStream fs = new(saveFile.FileName, FileMode.Create, FileAccess.Write);
                     using BinaryWriter bw = new(fs);
-                    Information saveData = new();
 
-                    foreach(var item in wiki)
+                    foreach (var item in wiki)
                     {
-                        bw.Write(saveData.GetName());
-                        bw.Write(saveData.GetStructure());
-                        bw.Write(saveData.GetCategory());
-                        bw.Write(saveData.GetDefinition());
+                        bw.Write(item.GetName());
+                        bw.Write(item.GetStructure());
+                        bw.Write(item.GetCategory());
+                        bw.Write(item.GetDefinition());
                     }
                 }
+
                 catch (Exception ex)
                 {
                     MessageBox.Show($"An error has occured: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
