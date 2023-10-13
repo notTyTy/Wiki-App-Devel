@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 
 namespace Wiki_App_Devel
@@ -38,13 +39,11 @@ namespace Wiki_App_Devel
             else
             {
                 Information information = new();
-
-                information.SetName(NameTextbox.Text);
+                information.SetName(NameTextbox.Text.ToLower());
                 information.SetStructure(GetRadio());
                 information.SetCategory(CategoryCombobox.Text);
                 information.SetDefinition(DefinitionTextbox.Text);
                 wiki.Add(information);
-
                 ListRefresh();
                 NameTextbox.Select(); // Automatically reselects the Name Textbox for new data to be added 
             }
@@ -53,7 +52,6 @@ namespace Wiki_App_Devel
         {
             InformationListView.Items.Clear(); // Clears the listview on each new addition
             Sort();
-
             ClearBoxes(); // Resets currently filled fields
         }
         private void Sort() // 6.9 Create a single custom method that will sort and display Name and Category into listview
@@ -83,6 +81,7 @@ namespace Wiki_App_Devel
             DefinitionTextbox.Clear();
             LinearRadio.Checked = false;
             NonLinearRadio.Checked = false;
+            InformationListView.SelectedItems.Clear();
         }
         private void DisplayData() // 6.11 Have data from the listview output to the desired textboxes
         {
@@ -120,7 +119,7 @@ namespace Wiki_App_Devel
         {
             if (InformationListView.SelectedItems.Count > 0)
             {
-                bool nameExists = (wiki[InformationListView.SelectedIndices[0]].GetName() == NameTextbox.Text);
+                bool nameExists = (wiki[InformationListView.SelectedIndices[0]].GetName() == NameTextbox.Text.ToLower());
                 if (string.IsNullOrWhiteSpace(NameTextbox.Text)
                     | (LinearRadio.Checked == false && NonLinearRadio.Checked == false)
                     | CategoryCombobox.SelectedIndex < 1
@@ -135,7 +134,6 @@ namespace Wiki_App_Devel
                     index.SetStructure(GetRadio());
                     index.SetCategory(CategoryCombobox.Text);
                     index.SetDefinition(DefinitionTextbox.Text);
-                    
                     ListRefresh(); // Display an updated version of the sorted list at the end of this process.
                 }
                 else
@@ -161,14 +159,12 @@ namespace Wiki_App_Devel
             using SaveFileDialog saveFile = new();
             saveFile.Filter = "bin files (*.bin)|*.bin";
             saveFile.FileName = defaultName;
-
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
                     using FileStream fs = new(saveFile.FileName, FileMode.Create, FileAccess.Write);
                     using BinaryWriter bw = new(fs);
-
                     foreach (var item in wiki)
                     {
                         bw.Write(item.GetName());
@@ -177,7 +173,6 @@ namespace Wiki_App_Devel
                         bw.Write(item.GetDefinition());
                     }
                 }
-
                 catch (Exception ex)
                 {
                     MessageBox.Show($"An error has occured: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -193,12 +188,14 @@ namespace Wiki_App_Devel
             {
                 try
                 {
-                    Information loadData = new();
                     using FileStream fs = new(openFile.FileName, FileMode.Open, FileAccess.Read);
                     using BinaryReader br = new(fs);
                     wiki.Clear();
+
                     while (fs.Position < fs.Length)
                     {
+                        Information loadData = new();
+
                         loadData.SetName(br.ReadString());
                         loadData.SetStructure(br.ReadString());
                         loadData.SetCategory(br.ReadString());
