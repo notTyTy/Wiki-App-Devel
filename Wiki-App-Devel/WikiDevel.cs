@@ -37,7 +37,14 @@ namespace Wiki_App_Devel
             }
             else
             {
-                wiki.Add(new Information(NameTextbox.Text.ToLower(), GetRadio(), CategoryCombobox.Text, DefinitionTextbox.Text)); // Name, Structure, Category, Definition
+                Information information = new();
+
+                information.SetName(NameTextbox.Text);
+                information.SetStructure(GetRadio());
+                information.SetCategory(CategoryCombobox.Text);
+                information.SetDefinition(DefinitionTextbox.Text);
+                wiki.Add(information);
+
                 ListRefresh();
                 NameTextbox.Select(); // Automatically reselects the Name Textbox for new data to be added 
             }
@@ -45,12 +52,14 @@ namespace Wiki_App_Devel
         private void ListRefresh() // A method to clear the listview, and update it with new values where necessary (i.e., add, edit, delete, sort)
         {
             InformationListView.Items.Clear(); // Clears the listview on each new addition
-            ClearBoxes(); // Resets currently filled fields
             Sort();
+
+            ClearBoxes(); // Resets currently filled fields
         }
         private void Sort() // 6.9 Create a single custom method that will sort and display Name and Category into listview
         {
             wiki.Sort();
+
             for (int i = 0; i < wiki.Count; i++) // Loops through the list and adds the relevant items to the name and category fields in the listView
             {
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
@@ -126,6 +135,7 @@ namespace Wiki_App_Devel
                     index.SetStructure(GetRadio());
                     index.SetCategory(CategoryCombobox.Text);
                     index.SetDefinition(DefinitionTextbox.Text);
+                    
                     ListRefresh(); // Display an updated version of the sorted list at the end of this process.
                 }
                 else
@@ -158,12 +168,14 @@ namespace Wiki_App_Devel
                 {
                     using FileStream fs = new(saveFile.FileName, FileMode.Create, FileAccess.Write);
                     using BinaryWriter bw = new(fs);
-                    for (int i = 0; i < wiki.Count; i++)
+                    Information saveData = new();
+
+                    foreach(var item in wiki)
                     {
-                        bw.Write(wiki[i].GetName());
-                        bw.Write(wiki[i].GetStructure());
-                        bw.Write(wiki[i].GetCategory());
-                        bw.Write(wiki[i].GetDefinition());
+                        bw.Write(saveData.GetName());
+                        bw.Write(saveData.GetStructure());
+                        bw.Write(saveData.GetCategory());
+                        bw.Write(saveData.GetDefinition());
                     }
                 }
                 catch (Exception ex)
@@ -181,12 +193,17 @@ namespace Wiki_App_Devel
             {
                 try
                 {
+                    Information loadData = new();
                     using FileStream fs = new(openFile.FileName, FileMode.Open, FileAccess.Read);
                     using BinaryReader br = new(fs);
                     wiki.Clear();
                     while (fs.Position < fs.Length)
                     {
-                        wiki.Add(new Information(br.ReadString(), br.ReadString(), br.ReadString(), br.ReadString()));
+                        loadData.SetName(br.ReadString());
+                        loadData.SetStructure(br.ReadString());
+                        loadData.SetCategory(br.ReadString());
+                        loadData.SetDefinition(br.ReadString());
+                        wiki.Add(loadData);
                     }
                     ListRefresh();
                 }
@@ -198,7 +215,9 @@ namespace Wiki_App_Devel
         }
         private void SearchBtn_Click(object sender, EventArgs e) // 6.10 Use built in binary search to find Information(nameSearch)
         {
-            int index = wiki.BinarySearch(new Information(SearchTextbox.Text.ToLower()));
+            Information searchName = new();
+            searchName.SetName(SearchTextbox.Text.ToLower());
+            int index = wiki.BinarySearch(searchName);
             if (InformationListView.Items.Count < 1)
             {
                 MessageBox.Show("Add data to the array before searching!", "Search Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
